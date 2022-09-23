@@ -23,8 +23,8 @@ class TipoDataService {
 	async removerPeloNome(nome) {
 		await http.delete('/tipos?termo=${nome}');
 	}
-	async BuscarPeloNome(nome) {
-		let resposta = await http.get('/tipos/${id}', tipo);
+	async buscarPeloNome(nome) {
+		await http.get('/tipos?termo=${nome}');
 		return resposta.data;
 	}
 }

@@ -41,9 +41,29 @@ export default {
 					<b-card-text class="headerCard">{{pokemon.nome}}</b-card-text>
 					<img :src="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/' + pokemon.numeroPokedex + '.png'"
 						class="card-img-top" alt="..." />
-					<div class="card-body">
-						<h5 class="card-title"> N° : {{pokemon.numeroPokedex}} </h5>
-						<h5 class="card-title"> Nível : {{pokemon.nivel}} </h5>
+					<div class="accordion" id="accordionExample">
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="headingOne">
+								<button class="accordion-button" type="button" data-bs-toggle="collapse"
+									data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+									Detalhes
+								</button>
+							</h2>
+							<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+								data-bs-parent="#accordionExample">
+								<div class="accordion-body">
+									<h5 class="card-title"> N° Pokedex: {{pokemon.numeroPokedex}} </h5>
+									<h5 class="card-title"> Nível : {{pokemon.nivel}} </h5>
+									<h5 class="card-title"> {{pokemon.genero}} </h5>
+									<h5 class="card-title"> Altura : {{pokemon.altura}} </h5>
+									<h5 class="card-title"> Peso : {{pokemon.peso}} </h5>
+									<h5 class="card-title"> Felicidade : {{pokemon.felicidade}} </h5>
+									<span id="spinner" class="spinner-grow spinner-grow-sm" role="status"
+										aria-hidden="true"></span>
+
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -52,6 +72,10 @@ export default {
 </template>
 
 <style>
+.spinner-grow {
+	align-items: center;
+}
+
 .card-title {
 	display: block;
 	align-items: center;
