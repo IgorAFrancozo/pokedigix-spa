@@ -52,15 +52,23 @@ export default {
 							<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
 								data-bs-parent="#accordionExample">
 								<div class="accordion-body">
+
 									<h5 class="card-title"> N° Pokedex: {{pokemon.numeroPokedex}} </h5>
 									<h5 class="card-title"> Nível : {{pokemon.nivel}} </h5>
 									<h5 class="card-title"> {{pokemon.genero}} </h5>
 									<h5 class="card-title"> Altura : {{pokemon.altura}} </h5>
 									<h5 class="card-title"> Peso : {{pokemon.peso}} </h5>
 									<h5 class="card-title"> Felicidade : {{pokemon.felicidade}} </h5>
-									<span id="spinner" class="spinner-grow spinner-grow-sm" role="status"
-										aria-hidden="true"></span>
-
+									<div id="spinner" class="spinner-grow" role="status" aria-hidden="true">
+										<div id="spinner" class="spinner-grow" role="status" aria-hidden="true">
+											<div id="spinner" class="spinner-grow" role="status" aria-hidden="true">
+												<div id="spinner" class="spinner-grow" role="status" aria-hidden="true">
+													<div id="spinner" class="spinner-grow" role="status"
+														aria-hidden="true"></div>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -72,8 +80,13 @@ export default {
 </template>
 
 <style>
+#spinner {
+	align-items: center;
+}
+
 .spinner-grow {
 	align-items: center;
+	padding-left: 25px;
 }
 
 .card-title {
