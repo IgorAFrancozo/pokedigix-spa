@@ -5,7 +5,7 @@ import { ref } from 'vue'
 export default {
 	name: "lista-pokemons",
 	data() {
-		return { pokemons: [] };
+		return { pokemons: [], hoverColor: '' }
 	},
 	methods: {
 		buscarPokemons() {
@@ -13,6 +13,14 @@ export default {
 				.then(resposta => {
 					this.pokemons = resposta
 				})
+		},
+		hoverIn() {
+			this.hoverColor = 'rgb(151, 7, 187)';
+			console.log(this.hoverColor);
+		},
+		hoverOut() {
+			this.hoverColor = 'rgb(255, 102, 0)';
+			console.log(this.hoverColor);
 		}
 	},
 	mounted() {
@@ -39,8 +47,10 @@ export default {
 			<div class="col" v-for="pokemon in pokemons" :key="pokemon.id">
 				<div class="card">
 					<b-card-text class="headerCard">{{pokemon.nome}}</b-card-text>
-					<img :src="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/' + pokemon.numeroPokedex + '.png'"
-						class="card-img-top" alt="..." />
+					<div @click="changeParam()">
+						<img :src="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/' + pokemon.numeroPokedex + '.png'"
+							class="card-img-top" alt="..." />
+					</div>
 					<div class="accordion" id="accordionExample">
 						<div class="accordion-item">
 							<h2 class="accordion-header" id="headingOne">
@@ -49,20 +59,33 @@ export default {
 									Detalhes
 								</button>
 							</h2>
-							<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+							<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
 								data-bs-parent="#accordionExample">
 								<div class="accordion-body">
-
-									<h5 class="card-title"> N° Pokedex: {{pokemon.numeroPokedex}} </h5>
-									<h5 class="card-title"> Nível : {{pokemon.nivel}} </h5>
-									<h5 class="card-title"> {{pokemon.genero}} </h5>
-									<h5 class="card-title"> Altura : {{pokemon.altura}} </h5>
-									<h5 class="card-title"> Peso : {{pokemon.peso}} </h5>
-									<h5 class="card-title"> Felicidade : {{pokemon.felicidade}} </h5>
-									<div id="spinner" class="spinner-grow" role="status" aria-hidden="true">
-										<div id="spinner" class="spinner-grow" role="status" aria-hidden="true">
-											<div id="spinner" class="spinner-grow" role="status" aria-hidden="true">
-												<div id="spinner" class="spinner-grow" role="status" aria-hidden="true">
+									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()" class="card-title animate"
+										:style="{backgroundColor: hoverColor}"> N° Pokedex:
+										{{pokemon.numeroPokedex}}
+									</h5>
+									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()" class="card-title animate"
+										:style="{backgroundColor: hoverColor}"> N° Pokedex:
+										{{pokemon.numeroPokedex}}> Nível : {{pokemon.nivel}} </h5>
+									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()" class="card-title animate"
+										:style="{backgroundColor: hoverColor}"> N° Pokedex:
+										{{pokemon.numeroPokedex}}> {{pokemon.genero}} </h5>
+									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()" class="card-title animate"
+										:style="{backgroundColor: hoverColor}"> N° Pokedex:
+										{{pokemon.numeroPokedex}}> Altura : {{pokemon.altura}} </h5>
+									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()" class="card-title animate"
+										:style="{backgroundColor: hoverColor}"> N° Pokedex:
+										{{pokemon.numeroPokedex}}> Peso : {{pokemon.peso}} </h5>
+									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()" class="card-title animate"
+										:style="{backgroundColor: hoverColor}"> N° Pokedex:
+										{{pokemon.numeroPokedex}}> Felicidade : {{pokemon.felicidade}} </h5>
+									<div id="spinner" class="spinner-grow" role="status" aria-hidden="false">
+										<div id="spinner" class="spinner-grow" role="status" aria-hidden="false">
+											<div id="spinner" class="spinner-grow" role="status" aria-hidden="false">
+												<div id="spinner" class="spinner-grow" role="status"
+													aria-hidden="false">
 													<div id="spinner" class="spinner-grow" role="status"
 														aria-hidden="true"></div>
 												</div>
@@ -80,6 +103,10 @@ export default {
 </template>
 
 <style>
+.animate {
+	transition: all .5s;
+}
+
 #spinner {
 	align-items: center;
 }
