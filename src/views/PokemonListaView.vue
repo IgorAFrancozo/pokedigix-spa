@@ -145,3 +145,4 @@ export default {
 	border-radius: 12px;
 }
 </style>
+ <!-- https://www.youtube.com/watch?v=AVMNjbKdU1M  -->
