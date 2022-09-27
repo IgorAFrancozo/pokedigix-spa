@@ -24,14 +24,30 @@ export default {
 </script>
 <template>
 	<main>
-		<div class="row row-cols-1 row-cols-md-5 g-3">
-			<div class="col" v-for="tipo in tipo" :key="tipo.id">
-				<ul>
-					<li>
-						{{tipo.nome}}
-					</li>
-				</ul>
+		<div>
+			<h2 class="mb-2 mt-5 text-center">Lista de Tipos</h2>
+			<div class="container">
+				<table class="table table-dark">
+					<thead>
+						<tr>
+							<th scope="col">Id</th>
+							<th scope="col">Tipo</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="col" v-for="tipo in tipo" :key="tipo.id">
+							<td scope="row">{{tipo.id}}</td>
+							<td>{{tipo.nome}}</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</main>
 </template>
+
+<style>
+.container {
+	border-radius: 100px;
+}
+</style>

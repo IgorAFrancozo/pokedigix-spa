@@ -1,12 +1,14 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+
 </script>
 
 <template>
 	<header>
 		<nav class="sticky-top navbar navbar-dark navbar-expand-lg bg-dark">
 			<div class="container-md">
-				<a class="navbar-brand" src="">Pokedigix</a>
+				<img src='../../public/icone/android-chrome-192x192.png' width="120" height="120" />
+				<a class="pokedigix">Pokedigix</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 					data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
 					aria-expanded="false" aria-label="Toggle navigation">
@@ -70,3 +72,15 @@ import { RouterLink } from 'vue-router';
 		</nav>
 	</header>
 </template>
+<style>
+.pokedigix {
+	font-size: 250%;
+	padding-left: 12px;
+	padding-right: 120px;
+	color: rgb(151, 7, 187);
+	stroke-width: 7px;
+	stroke: rgb(240, 95, 11);
+	font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+	text-decoration: double;
+}
+</style>

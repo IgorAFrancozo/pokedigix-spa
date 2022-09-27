@@ -16,11 +16,9 @@ export default {
 		},
 		hoverIn() {
 			this.hoverColor = 'rgb(151, 7, 187)';
-			console.log(this.hoverColor);
 		},
 		hoverOut() {
 			this.hoverColor = 'rgb(255, 102, 0)';
-			console.log(this.hoverColor);
 		}
 	},
 	mounted() {
@@ -123,6 +121,7 @@ export default {
 
 .card-img-top {
 	background-color: rgb(151, 7, 187);
+	opacity: 90%;
 	outline: 10px;
 	stroke: white;
 	stroke-width: 4px;
@@ -134,6 +133,7 @@ export default {
 .headerCard {
 	background-color: rgb(255, 102, 0);
 	text-align: center;
+	opacity: 83%;
 	color: white;
 	text-transform: uppercase;
 	font-weight: bold;
