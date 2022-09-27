@@ -67,20 +67,15 @@ export default {
 										{{pokemon.numeroPokedex}}
 									</h5>
 									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()" class="card-title animate"
-										:style="{backgroundColor: hoverColor}"> N° Pokedex:
-										{{pokemon.numeroPokedex}}> Nível : {{pokemon.nivel}} </h5>
+										:style="{backgroundColor: hoverColor}"> Nível:{{pokemon.nivel}} </h5>
 									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()" class="card-title animate"
-										:style="{backgroundColor: hoverColor}"> N° Pokedex:
-										{{pokemon.numeroPokedex}}> {{pokemon.genero}} </h5>
+										:style="{backgroundColor: hoverColor}"> Genero:{{genero}} </h5>
 									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()" class="card-title animate"
-										:style="{backgroundColor: hoverColor}"> N° Pokedex:
-										{{pokemon.numeroPokedex}}> Altura : {{pokemon.altura}} </h5>
+										:style="{backgroundColor: hoverColor}"> Altura:{{pokemon.altura}} </h5>
 									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()" class="card-title animate"
-										:style="{backgroundColor: hoverColor}"> N° Pokedex:
-										{{pokemon.numeroPokedex}}> Peso : {{pokemon.peso}} </h5>
+										:style="{backgroundColor: hoverColor}"> Peso:{{pokemon.peso}} </h5>
 									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()" class="card-title animate"
-										:style="{backgroundColor: hoverColor}"> N° Pokedex:
-										{{pokemon.numeroPokedex}}> Felicidade : {{pokemon.felicidade}} </h5>
+										:style="{backgroundColor: hoverColor}"> Felicidade:{{pokemon.felicidade}} </h5>
 									<div id="spinner" class="spinner-grow" role="status" aria-hidden="false">
 										<div id="spinner" class="spinner-grow" role="status" aria-hidden="false">
 											<div id="spinner" class="spinner-grow" role="status" aria-hidden="false">

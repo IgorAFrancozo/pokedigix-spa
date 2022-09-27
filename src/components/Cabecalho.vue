@@ -68,6 +68,5 @@ import { RouterLink } from 'vue-router';
 				</div>
 			</div>
 		</nav>
-
 	</header>
 </template>
