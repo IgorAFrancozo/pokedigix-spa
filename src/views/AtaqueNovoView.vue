@@ -1,15 +1,15 @@
 <script>
-import AtaqueDataService from '../services/AtaqueDataService';
 import TipoDataService from '../services/TipoDataService';
+import AtaqueDataService from '../services/AtaqueDataService';
 import AtaqueRequest from '../models/AtaqueRequest';
-import ataqueResponse from '../models/AtaqueResponse'
+import AtaqueResponse from '../models/AtaqueResponse';
 
 export default {
 	name: 'ataques-novo',
 	data() {
 		return {
 			ataqueRequest: new AtaqueRequest(),
-			ataqueResponse: new ataqueResponse(),
+			ataqueResponse: new AtaqueResponse(),
 			salvo: false,
 			categorias: [
 				{
@@ -31,7 +31,7 @@ export default {
 			tipos: [],
 			desabilitarForca: false
 		}
-		},
+	},
 	methods: {
 		salvar() {
 			AtaqueDataService.criar(this.ataqueRequest)
@@ -67,12 +67,12 @@ export default {
 			} else {
 				this.desabilitarForca = false;
 			}
-		},
+		}
 	},
 	mounted() {
 		this.ataqueRequest.categoria = this.categorias[1].nomeBanco;
 		this.carregarTipos();
-	}
+	},
 }
 
 </script>

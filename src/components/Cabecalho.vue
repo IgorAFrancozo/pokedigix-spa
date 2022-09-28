@@ -78,9 +78,8 @@ import { RouterLink } from 'vue-router';
 	padding-left: 12px;
 	padding-right: 120px;
 	color: rgb(151, 7, 187);
-	stroke-width: 7px;
-	stroke: rgb(240, 95, 11);
 	font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 	text-decoration: double;
+	text-align: center;
 }
 </style>
