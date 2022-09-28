@@ -33,6 +33,16 @@ export default {
 		}
 	},
 	methods: {
+		carregarTipos() {
+			TipoDataService.buscarTodos()
+				.then(resposta => {
+					this.tipos = resposta;
+					this.ataqueRequest.tipoId = this.tipos[0].id;
+				})
+				.catch(erro => {
+					console.log(erro);
+				});
+		},
 		salvar() {
 			AtaqueDataService.criar(this.ataqueRequest)
 				.then(resposta => {
@@ -51,27 +61,18 @@ export default {
 			this.ataqueResponse = new AtaqueResponse();
 			this.salvo = false;
 		},
-		carregarTipos() {
-			TipoDataService.buscarTodos()
-				.then(resposta => {
-					this.tipos = resposta;
-					this.ataqueRequest.tipoId = this.tipos[0].id;
-				})
-				.catch(erro => {
-					console.log(erro);
-				});
-		},
 		escolherCategoria() {
 			if (this.ataqueRequest.categoria == "EFEITO") {
 				this.desabilitarForca = true;
 			} else {
 				this.desabilitarForca = false;
 			}
-		}
+		},
 	},
 	mounted() {
-		this.ataqueRequest.categoria = this.categorias[1].nomeBanco;
 		this.carregarTipos();
+		this.novo();
+
 	},
 }
 

@@ -31,11 +31,11 @@ export default {
 <template>
 	<div v-if="!salvo">
 		<form>
-			<div class="mt-2 mb-3">
+			<div class="mt-2 mb-2">
 				<label for="nome" class="form-label">Nome do Tipo</label>
 				<input type="text" required class="form-control" v-model="tipo.nome" id="nome">
 			</div>
-			<button @click.prevent="salvar" class="btn btn-dark">Salvar</button>
+			<button @click.prevent="salvar" class="btn btn-dark m-2">Salvar</button>
 		</form>
 	</div>
 	<div v-else>
@@ -46,3 +46,4 @@ export default {
 		</div>
 	</div>
 </template>
+

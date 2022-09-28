@@ -23,10 +23,10 @@ export default {
 
 </script>
 <template>
-	<main>
+	<main class="cont">
 		<div>
-			<h2 class="mb-2 mt-5 text-center">Lista de Tipos</h2>
-			<div class="container">
+			<h2 class="mb-2 mt-5 text-center titulotipo">Lista de Tipos</h2>
+			<div>
 				<table class="table table-dark">
 					<thead>
 						<tr>
@@ -47,7 +47,12 @@ export default {
 </template>
 
 <style>
-.container {
-	border-radius: 100px;
+.cont {
+	background-color: rgba(90, 10, 155, 0.863);
+	border-radius: 7px;
+}
+
+.titulotipo {
+	color: white;
 }
 </style>

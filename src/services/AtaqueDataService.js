@@ -6,7 +6,7 @@ class AtaqueDataService {
 		return resposta.data;
 	}
 	async BuscarPeloId(id) {
-		let resposta = await http.get('/ataques/${id}');
+		let resposta = await http.get('/ataques/' + id);
 		return resposta.data;
 	}
 	async criar(ataque) {
@@ -14,11 +14,11 @@ class AtaqueDataService {
 		return resposta.data;
 	}
 	async atualizar(id, ataque) {
-		let resposta = await http.put('/ataques/${id}', ataque);
+		let resposta = await http.put('/ataques/' + id, ataque);
 		return resposta.data;
 	}
 	async removerPeloId(id) {
-		await http.delete('/ataques/${id}');
+		await http.delete('/ataques/' + id);
 	}
 	
 }
