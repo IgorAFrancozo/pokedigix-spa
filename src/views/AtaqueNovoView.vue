@@ -1,9 +1,8 @@
 <script>
-import TipoDataService from '../services/TipoDataService';
 import AtaqueDataService from '../services/AtaqueDataService';
 import AtaqueRequest from '../models/AtaqueRequest';
 import AtaqueResponse from '../models/AtaqueResponse';
-
+import TipoDataService from '../services/TipoDataService';
 export default {
 	name: 'ataques-novo',
 	data() {
@@ -14,7 +13,7 @@ export default {
 			categorias: [
 				{
 					indice: 1,
-					nome: "Físico",
+					nome: "Fisico",
 					nomeBanco: "FISICO"
 				},
 				{
@@ -33,16 +32,6 @@ export default {
 		}
 	},
 	methods: {
-		carregarTipos() {
-			TipoDataService.buscarTodos()
-				.then(resposta => {
-					this.tipos = resposta;
-					this.ataqueRequest.tipoId = this.tipos[0].id;
-				})
-				.catch(erro => {
-					console.log(erro);
-				});
-		},
 		salvar() {
 			AtaqueDataService.criar(this.ataqueRequest)
 				.then(resposta => {
@@ -52,14 +41,24 @@ export default {
 				.catch(erro => {
 					console.log(erro);
 					this.salvo = false;
-				})
+				});
 		},
 		novo() {
-			this.ataqueRequest = new AtaqueRequest();
+			this.salvo = false;
 			this.desabilitarForca = false;
+			this.ataqueRequest = new AtaqueRequest();
 			this.ataqueRequest.categoria = this.categorias[1].nomeBanco;
 			this.ataqueResponse = new AtaqueResponse();
-			this.salvo = false;
+		},
+		carregarTipos() {
+			TipoDataService.buscarTodos()
+				.then(resposta => {
+					this.tipos = resposta;
+					this.ataqueRequest.tipoId = this.tipos[0].id
+				})
+				.catch(erro => {
+					console.log(erro);
+				});
 		},
 		escolherCategoria() {
 			if (this.ataqueRequest.categoria == "EFEITO") {
@@ -67,76 +66,68 @@ export default {
 			} else {
 				this.desabilitarForca = false;
 			}
-		},
+		}
 	},
 	mounted() {
 		this.carregarTipos();
 		this.novo();
-
 	},
 }
-
 </script>
 
 <template>
-	<h2 class="dashboard">Cadastrar um novo Ataque</h2>
-	<div class="border  rounded">
-		<div v-if="!salvo">
-			<form class="row g-3">
-				<div class="col-12">
-					<label for="nome" class="form-label">Nome do Ataque</label>
-					<input type="text" required class="form-control" v-model="ataqueRequest.nome" id="nome"
-						placeholder="Ex: Aqua-Jet">
-				</div>
-				<div class="col-6">
-					<label for="forca" class="form-label">Força</label>
-					<input type="text" required :disabled="desabilitarForca" class="form-control"
-						v-model="ataqueRequest.forca" id="forca" placeholder="0 - 50">
-				</div>
-				<div class="col-6">
-					<label for="acuracia" class="form-label">Acurácia: </label>
-					<input type="Text" class="form-control" v-model="ataqueRequest.acuracia" id="acuracia"
-						placeholder="0 - 100" required>
-				</div>
-				<div class="col-3">
-					<label for="pp" class="form-label">Poder:</label>
-					<input type="number" class="form-control" v-model="ataqueRequest.pontosDePoder" id="pp" required>
-				</div>
-				<div class="col-9">
-					<label for="categoria" class="form-label">Categoria: </label>
-					<select id="categoria" @change="escolherCategoria" class="form-select"
-						aria-label="Default select example" v-model="ataqueRequest.categoria">
-						<option v-for="categoria in categorias" :key="categoria.indice" :value="categoria.nomeBanco">
-							{{categoria.nome}}</option>
-					</select>
-				</div>
-				<div class="col-12">
-					<label for="tipo" class="form-label">Tipo do ataque: </label>
-					<select id="tipo" class="form-select" v-model="ataqueRequest.tipoId">
-						<option v-for="tipo in tipos" :key="tipo.id" :value="tipo.id">
-							{{tipo.nome}}
-						</option>
-					</select>
-				</div>
-				<div class="col-12">
-					<label for="descricao" class="form-label"
-						placeholder="Ex: Este ataque causa dano físico.">Descrição:</label>
-					<textarea id="descricao" class="form-control" v-model="ataqueRequest.descricao">
-				</textarea>
-				</div>
-				<button @click.prevent="salvar" class="btn btn-dark">Salvar</button>
-			</form>
+	<div v-if="!salvo">
+		<form class="row g-3">
+			<div class="col-12">
+				<label for="nome" class="form-label">Nome do Ataque</label>
+				<input type="text" placeholder="ex: Ataque do Trovao" required class="form-control"
+					v-model="ataqueRequest.nome" id="nome">
+			</div>
+			<div class="col-6">
+				<label for="forca" class="form-label">Forca</label>
+				<input type="text" required :disabled="desabilitarForca" class="form-control"
+					v-model="ataqueRequest.forca" id="forca">
+			</div>
+			<div class="col-6">
+				<label for="acuracia" class="form-label">Acuracia</label>
+				<input type="text" required class="form-control" v-model="ataqueRequest.acuracia" id="acuracia">
+			</div>
+			<div class="col-3">
+				<label for="pp" class="form-label">PP</label>
+				<input type="number" required class="form-control" v-model="ataqueRequest.pontosDePoder" id="pp">
+			</div>
+			<div class="col-9">
+				<label for="categoria" class="form-label">Categoria</label>
+				<select id="categoria" @change="escolherCategoria" class="form-select"
+					v-model="ataqueRequest.categoria">
+					<option v-for="categoria in categorias" :key="categoria.indice" :value="categoria.nomeBanco">
+						{{categoria.nome}}
+					</option>
+				</select>
+			</div>
+			<div class="col-12">
+				<label for="tipo" class="form-label">Tipo do Ataque</label>
+				<select id="tipo" class="form-select" v-model="ataqueRequest.tipoId">
+					<option v-for="tipo in tipos" :key="tipo.id" :value="tipo.id">
+						{{tipo.nome}}
+					</option>
+				</select>
+			</div>
+			<div class="col-12">
+				<label for="descricao" class="form-label">Descricao</label>
+				<textarea class="form-control" id="descricao" rows="2" required placeholder="ex: Esse ataque machuca"
+					v-model="ataqueRequest.descricao"></textarea>
+			</div>
+			<button @click.prevent="salvar" class="btn btn-success">Salvar</button>
+		</form>
+	</div>
+	<div v-else>
+		<div class="row">
+			<h4>Salvo com sucesso!</h4>
+			<span>Ataque id: {{ataqueResponse.id}}</span>
 		</div>
-		<div v-else>
-			<div class="row">
-				<h4>Salvo com sucesso!</h4>
-				<span>Ataque cadastrado: {{ataqueRequest.nome}}
-					Id do novo ataque: {{ataqueResponse.id}}
-				</span>
-			</div>
-			<div class="row-sm">
-				<button @click="novo" class="btn btn-dark">Novo Cadastro</button>
-			</div>
+		<div class="row-sm">
+			<button @click="novo" class="btn btn-primary">Novo</button>
 		</div>
 	</div>
 </template>
