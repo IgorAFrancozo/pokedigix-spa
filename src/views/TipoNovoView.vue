@@ -36,7 +36,7 @@ export default {
 <template>
 	<div v-if="!salvo">
 		<form>
-			<div class="mb-3">
+			<div class="cgi mb-3">
 				<label for="nome" class="form-label">Nome do Tipo</label>
 				<input type="text" required class="form-control" v-model="tipo.nome" id="nome" />
 			</div>
@@ -58,3 +58,8 @@ export default {
 		</div>
 	</div>
 </template>
+<style>
+.cgi {
+	color: white;
+}
+</style>

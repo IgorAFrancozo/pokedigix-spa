@@ -63,10 +63,10 @@ export default {
 </script>
 <template>
 	<div class="row">
-		<h2 class="mb-4 mt-4">Lista de Tipos</h2>
+		<h2 class="cgi mb-4 mt-4">Lista de Tipos</h2>
 		<div class="table-responsive">
 			<loading v-model:active="isLoading" />
-			<table class="table table-striped">
+			<table class="table table-dark table-striped">
 				<thead>
 					<tr>
 						<th scope="col" class="col-10">Nome do Tipo</th>

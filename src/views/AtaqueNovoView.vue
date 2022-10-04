@@ -77,7 +77,7 @@ export default {
 
 <template>
 	<div v-if="!salvo">
-		<form class="row g-3">
+		<form class="cgi row g-3">
 			<div class="col-12">
 				<label for="nome" class="form-label">Nome do Ataque</label>
 				<input type="text" placeholder="ex: Ataque do Trovao" required class="form-control"
@@ -131,3 +131,8 @@ export default {
 		</div>
 	</div>
 </template>
+<style>
+	.cgi{
+		color: white;
+	}
+</style>
