@@ -64,6 +64,20 @@ import { RouterLink } from 'vue-router';
 								</li>
 							</ul>
 						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+								aria-expanded="false">
+								Treinador
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<RouterLink class="dropdown-item" to="/treinadores/novo">Novo</RouterLink>
+								</li>
+								<li>
+									<RouterLink class="dropdown-item" to="/treinadores/lista">Lista</RouterLink>
+								</li>
+							</ul>
+						</li>
 					</ul>
 				</div>
 			</div>

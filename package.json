@@ -8,9 +8,11 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^1.0.0-beta.3",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/vue-fontawesome": "^3.0.1",
     "@quasar/extras": "^1.15.3",
+    "@vueuse/core": "^9.3.0",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.1",
     "quasar": "^2.8.3",

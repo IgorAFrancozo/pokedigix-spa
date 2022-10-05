@@ -1,13 +1,12 @@
 <script>
-import TipoDataService from '../services/TipoDataService';
+import TreinadorDataService from '../services/TreinadorDataService'
 import Loading from "vue-loading-overlay";
 
 export default {
-	name: "tipos-lista",
+	name: "treinadores-lista",
 	data() {
 		return {
-			tipos: [],
-			tipoSelecionado: this.inicializaTipo(),
+			treinadores: [],
 			isLoading: false
 		};
 	},
@@ -15,11 +14,11 @@ export default {
 		Loading,
 	},
 	methods: {
-		buscarTipos() {
+		buscarTreinadores() {
 			this.isLoading = true;
-			TipoDataService.buscarTodos()
+			TreinadorDataService.buscarTodos()
 				.then((resposta) => {
-					this.tipos = resposta;
+					this.treinadores = resposta;
 					this.isLoading = false;
 				})
 				.catch((erro) => {
@@ -27,59 +26,32 @@ export default {
 					this.isLoading = false;
 				});
 		},
-		editar(id) {
-			this.$router.push({ name: "tipos-edit", params: { id: id } });
-		},
-		selecionar(tipo) {
-			this.tipoSelecionado.id = tipo.id;
-			this.tipoSelecionado.nome = tipo.nome;
-		},
-		inicializaTipo() {
-			return {
-				id: null,
-				nome: null
-			}
-		},
-		removerTipoSelecionado() {
-			this.isLoading = true;
-			TipoDataService.remover(this.tipoSelecionado.id)
-				.then(() => {
-					this.tipos = this.tipos.filter(tipo => tipo.id != this.tipoSelecionado.id);
-					this.inicializaTipo();
-					this.isLoading = false;
-				})
-				.catch(() => {
-					this.inicializaTipo();
-					this.isLoading = false;
-				});
-		},
-		novo() {
-			this.$router.push({ name: 'tipos-novo' });
-		}
 	},
 	mounted() {
-		this.buscarTipos();
+		this.buscarTreinadores();
 	}
 };
 </script>
 <template>
 	<div class="row">
-		<h2 class="cgi mb-4 mt-4">Lista de Tipos</h2>
+		<h2 class="cgi mb-4 mt-4">Lista de treinadores</h2>
 		<div class="table-responsive">
 			<loading v-model:active="isLoading" />
 			<table class="table table-dark table-striped">
 				<thead>
 					<tr>
-						<th scope="col" class="col-10">Nome do Tipo</th>
+						<th scope="col" class="col-10 cgi">Nome do treinador</th>
+						<th scope="col" class="col-10 cgi">Endereco</th>
 						<th scope="col">Editar</th>
 						<th scope="col">Excluir</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="tipo in tipos" :key="tipo.id">
-						<td>{{ tipo.nome }}</td>
+					<tr v-for="treinador in treinadores" :key="treinador.id">
+						<td>{{ treinador.nome }}</td>
+						<td>{{ treinador.endereco }}</td>
 						<td>
-							<button type="button" class="btn btn-outline-light text-center" @click="editar(tipo.id)">
+							<button type="button" class="btn btn-outline-light text-center" @click="">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
 									class="bi bi-pencil-square" viewBox="0 0 16 16">
 									<path
@@ -91,7 +63,7 @@ export default {
 						</td>
 						<td>
 							<button type="button" class="btn btn-outline-danger text-center" data-bs-toggle="modal"
-								data-bs-target="#confirmacaoExclusao" @click="selecionar(tipo)">
+								data-bs-target="#confirmacaoExclusao" @click="">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
 									class="bi bi-trash3" viewBox="0 0 16 16">
 									<path
@@ -104,7 +76,7 @@ export default {
 			</table>
 			<div class="row">
 				<div class="col-1">
-					<button @click="novo" class="btn btn-dark">Novo</button>
+					<button @click="" class="btn btn-dark">Novo</button>
 				</div>
 			</div>
 		</div>
@@ -117,15 +89,14 @@ export default {
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						Ao confirmar, o tipo "<strong>{{tipoSelecionado.nome}}</strong>" sera excluido.
+						Ao confirmar, o Treinador "<strong>--</strong>" sera excluido.
 						Deseja continuar?
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
 							Cancelar
 						</button>
-						<button type="button" class="btn btn-primary" @click="removerTipoSelecionado"
-							data-bs-dismiss="modal">Sim</button>
+						<button type="button" class="btn btn-primary" @click="" data-bs-dismiss="modal">Sim</button>
 					</div>
 				</div>
 			</div>

@@ -58,8 +58,3 @@ export default {
 		</div>
 	</div>
 </template>
-<style>
-.cgi {
-	color: white;
-}
-</style>

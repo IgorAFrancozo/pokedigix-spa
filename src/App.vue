@@ -12,7 +12,6 @@ import Style from './assets/Style.css'
 </template>
 <style>
 .container {
-	padding: 7px;
 	margin: 7px;
 }
 </style>

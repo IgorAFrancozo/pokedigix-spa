@@ -2,13 +2,14 @@
 import PokemonDataService from '../services/PokemonDataService';
 import TipoDataService from '../services/TipoDataService';
 import PokemonRequest from '../models/PokemonRequest';
+import AtaqueDataService from '../services/AtaqueDataService';
 
 export default {
 	name: 'pokemons-novo',
 	data() {
 		return {
 			pokemonRequest: new PokemonRequest(),
-			tipos: [], salvo: false,
+			tipos: [], salvo: false, ataques: [],
 		}
 	},
 	methods: {
@@ -21,9 +22,25 @@ export default {
 					console.log(erro);
 				});
 		},
+		carregarAtaques() {
+			AtaqueDataService.buscarTodos()
+				.then(resposta => {
+					this.ataques = resposta;
+					this.pokemonRequest.ataquesIds[0] = "";
+					this.pokemonRequest.ataquesIds[1] = "";
+					this.pokemonRequest.ataquesIds[2] = "";
+					this.pokemonRequest.ataquesIds[3] = "";
+				})
+				.catch(erro => {
+					console.log(erro);
+				});
+		},
 		salvar() {
 			const listaFiltrada = this.pokemonRequest.tiposIds.filter(tipo => tipo != "");
 			this.pokemonRequest.tiposIds = [... new Set(listaFiltrada)]
+			const listaFiltradaAtaques = this.pokemonRequest.ataquesIds.filter(ataque => ataque != "");
+			this.pokemonRequest.ataquesIds = [... new Set(listaFiltradaAtaques)]
+
 			PokemonDataService.criar(this.pokemonRequest)
 				.then(() => {
 					this.salvo = true;
@@ -42,6 +59,7 @@ export default {
 	},
 	mounted() {
 		this.carregarTipos();
+		this.carregarAtaques();
 	}
 }
 </script>
@@ -154,6 +172,46 @@ export default {
 						</select>
 					</div>
 				</div>
+				<div>
+					<label for="ataque1" class="form-label cgi m-2"><strong>Ataque 1</strong></label>
+					<select id="ataque1" class="form-select" v-model="pokemonRequest.ataquesIds[0]">
+						<option value="" selected>Nenhum</option>
+						<option v-for="ataque in ataques" :key="ataque.id" :value="ataque.id">
+							{{ataque.nome}} - Força: {{ataque.forca}} - Tipo: {{ataque.tipo.nome}} - Categoria:
+							{{ataque.categoria}}
+						</option>
+					</select>
+				</div>
+				<div>
+					<label for="ataque2" class="form-label cgi m-2"><strong>Ataque 2</strong></label>
+					<select id="ataque2" class="form-select" v-model="pokemonRequest.ataquesIds[1]">
+						<option value="" selected>Nenhum</option>
+						<option v-for="ataque in ataques" :key="ataque.id" :value="ataque.id">
+							{{ataque.nome}} - Força: {{ataque.forca}} - Tipo: {{ataque.tipo.nome}} - Categoria:
+							{{ataque.categoria}}
+						</option>
+					</select>
+				</div>
+				<div>
+					<label for="ataque3" class="form-label cgi m-2"><strong>Ataque 3</strong></label>
+					<select id="ataque3" class="form-select" v-model="pokemonRequest.ataquesIds[2]">
+						<option value="" selected>Nenhum</option>
+						<option v-for="ataque in ataques" :key="ataque.id" :value="ataque.id">
+							{{ataque.nome}} - Força: {{ataque.forca}} - Tipo: {{ataque.tipo.nome}} - Categoria:
+							{{ataque.categoria}}
+						</option>
+					</select>
+				</div>
+				<div>
+					<label for="ataque4" class="form-label cgi m-2"><strong>Ataque 4</strong></label>
+					<select id="ataque4" class="form-select" v-model="pokemonRequest.ataquesIds[3]">
+						<option value="" selected>Nenhum</option>
+						<option v-for="ataque in ataques" :key="ataque.id" :value="ataque.id">
+							{{ataque.nome}} - Força: {{ataque.forca}} - Tipo: {{ataque.tipo.nome}} - Categoria:
+							{{ataque.categoria}}
+						</option>
+					</select>
+				</div>
 				<div class="row button2">
 					<button @click.prevent="salvar" class="btn btn-dark m-3">Salvar</button>
 				</div>
@@ -168,9 +226,7 @@ export default {
 	</div>
 </template>
 <style>
-.button2 {
-	width: 100px;
-	height: 20px;
-	align-items: center;
+.cgi {
+	color: white;
 }
 </style>

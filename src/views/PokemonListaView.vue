@@ -1,81 +1,103 @@
 <script>
-import PokemonDataService from '../services/PokemonDataService';
+import PokemonDataService from "../services/PokemonDataService";
 export default {
 	name: "lista-pokemons",
 	data() {
-		return { pokemons: [], hoverColor: '' };
+		return { pokemons: [] };
 	},
 	methods: {
 		buscarPokemons() {
 			PokemonDataService.buscarTodos()
-				.then(resposta => {
-					this.pokemons = resposta
+				.then((resposta) => {
+					this.pokemons = resposta;
 				})
-				.catch(erro => {
+				.catch((erro) => {
 					console.log(erro);
 				});
 		},
-		hoverIn() {
-			this.hoverColor = 'rgb(151, 7, 187)';
-		},
-		hoverOut() {
-			this.hoverColor = 'rgb(255, 102, 0)';
-		}
-	},
-	mudarCaminho() {
-		console.log("evento");
 	},
 	mounted() {
 		this.buscarPokemons();
-	}
-}
+	},
+};
 </script>
-
+	
 <template>
 	<main>
-		<div class="row row-cols-1 row-cols-md-6 g-4 p-5">
-			<div class="col" v-for="pokemon in pokemons" :key="pokemon.id">
-				<div class="card">
-					<b-card-text class="headerCard">{{pokemon.nome}}</b-card-text>
-					<div @click="changeParam()">
-						<img :src="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/' + pokemon.numeroPokedex + '.png'"
-							class="card-img-top" alt="..." />
-					</div>
-					<div class=" stl1" id="accordionExample">
-						<div class="accordion-item">
-							<h2 class="accordion-header" id="headingOne">
-								<button class="accordion-button " type="button" data-bs-toggle="collapse"
-									data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-									<a class="stlt"><strong>Detalhes  </strong><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
-  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-</svg></a>
-								</button>
-							</h2>
-							<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-								data-bs-parent="#accordionExample">
-								<div class="accordion-body stl1">
-									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()"
-										class="card-title animate text-center" :style="{backgroundColor: hoverColor}">
-										N° Pokedex: {{pokemon.numeroPokedex}}
-									</h5>
-									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()"
-										class="card-title animate text-center" :style="{backgroundColor: hoverColor}">
-										Nível: {{pokemon.nivel}} </h5>
-									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()"
-										class="card-title animate text-center" :style="{backgroundColor: hoverColor}">
-										{{pokemon.genero}} </h5>
-									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()"
-										class="card-title animate text-center" :style="{backgroundColor: hoverColor}">
-										Altura: {{pokemon.altura}}</h5>
-									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()"
-										class="card-title animate text-center" :style="{backgroundColor: hoverColor}">
-										Peso: {{pokemon.peso}} </h5>
-									<h5 @mouseout="hoverOut()" @mouseover="hoverIn()"
-										class="card-title animate text-center" :style="{backgroundColor: hoverColor}">
-										Felicidade: {{pokemon.felicidade}} </h5>
-									<div class="detalhes text-center">
-										<button type="button" class="btn btn-outline-primary m-1">
+		<div>
+			<h2>Lista de Pokemon</h2>
+			<div class="row">
+				<div class="col-6" v-for="pokemon in pokemons" :key="pokemon.id">
+					<div class="card mb-3">
+						<div class="card-header">
+							<div class="row">
+								<div class="col-sm-6">
+									<p class="card-text text-start">
+										<strong>{{ pokemon.nome }}</strong>
+									</p>
+								</div>
+								<div class="col-sm-6 text-end">
+									<p class="card-text">Lv. {{ pokemon.nivel }}</p>
+								</div>
+							</div>
+						</div>
+						<div class="row g-0">
+							<div class="col-md-3 text-center align-items-center">
+								<img :alt="'Imagem do ' + pokemon.nome" :title="pokemon.nome" class="card-img" :src="
+						'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/' +
+						pokemon.numeroPokedex +
+						'.png'
+					  " />
+							</div>
+							<div class="col-md-9">
+								<div class="card-body">
+									<p class="card-text">
+									<div class="row">
+										<div v-for="tipo in pokemon.tipos" :key="tipo.id" class="col-6">
+											<div class="card">
+												<div class="card-body text-center p-1"
+													:style="{backgroundColor: tipo.cor}">
+													{{tipo.nome}}
+												</div>
+											</div>
+										</div>
+									</div>
+									</p>
+									<p class="card-text">
+										Genero:
+										<svg v-if="pokemon.genero == 'FEMININO'" xmlns="http://www.w3.org/2000/svg"
+											width="16" height="16" fill="currentColor" class="bi bi-gender-female"
+											viewBox="0 0 16 16">
+											<path fill-rule="evenodd"
+												d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5z" />
+										</svg>
+										<svg v-else xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+											fill="currentColor" class="bi bi-gender-male" viewBox="0 0 16 16">
+											<path fill-rule="evenodd"
+												d="M9.5 2a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.707L9.871 6.836a5 5 0 1 1-.707-.707L13.293 2H9.5zM6 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" />
+										</svg>
+									</p>
+									<div class="collapse" :id="'collapseExample' + pokemon.id">
+										<div class="card card-body">
+											<p class="card-text">Pokedex: {{ pokemon.numeroPokedex }}</p>
+											<p class="card-text">Pokedex: {{ pokemon.peso }}</p>
+											<p class="card-text">Pokedex: {{ pokemon.altura }}</p>
+											<p class="card-text">Pokedex: {{ pokemon.felicidade }}</p>
+										</div>
+									</div>
+
+									<div class="text-center">
+										<button type="button" data-bs-toggle="collapse"
+											class="btn btn-outline-primary pt-1 m-1"
+											:href="'#collapseExample' + pokemon.id">
+											Mais
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+												fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+												<path fill-rule="evenodd"
+													d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+											</svg>
+										</button>
+										<button type="button" class="btn btn-outline-warning m-1">
 											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 												fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
 												<path
@@ -93,74 +115,17 @@ export default {
 											</svg>
 										</button>
 									</div>
-									<div id="spinner" class="spinner-grow" role="status" aria-hidden="false">
-										<div id="spinner" class="spinner-grow" role="status" aria-hidden="false">
-											<div id="spinner" class="spinner-grow" role="status" aria-hidden="false">
-												<div id="spinner" class="spinner-grow" role="status"
-													aria-hidden="false">
-													<div id="spinner" class="spinner-grow" role="status"
-														aria-hidden="true"></div>
-												</div>
-											</div>
-										</div>
-									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-1">
+					<button @click="novo" class="btn btn-primary">Novo</button>
+				</div>
+			</div>
 		</div>
 	</main>
 </template>
-<style>
-.animate {
-	transition: all .5s;
-}
-.stl1{
-	background: linear-gradient(to right, rgb(0, 0, 0), rgb(255, 255, 255), rgb(0, 0, 0));
-}
-.stlt{
-	text-align: center;
-	color: rgb(255, 128, 43);
-	margin: 12px;
-	align-items: center;
-}
-
-#spinner {
-	align-items: center;
-}
-
-.spinner-grow {
-	align-items: center;
-	padding-left: 25px;
-}
-
-.card-title {
-	display: block;
-	align-items: center;
-	color: rgb(255, 255, 255);
-	background-color: rgb(255, 102, 0);
-	border-radius: 7px;
-	text-align: center;
-	font-weight: bolder;
-}
-
-.card-img-top {
-	background: linear-gradient(to right, rgb(0, 0, 0), rgb(255, 255, 255), rgb(0, 0, 0));
-
-}
-
-.headerCard {
-	background-color: rgb(255, 102, 0);
-	border-radius: 12px;
-	text-align: center;
-	color: white;
-	text-transform: uppercase;
-	font-weight: bold;
-}
-
-.detalhes {
-	margin-bottom: 12px;
-}
-</style>
