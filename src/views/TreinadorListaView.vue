@@ -40,16 +40,22 @@ export default {
 			<table class="table table-dark table-striped">
 				<thead>
 					<tr>
-						<th scope="col" class="col-10 cgi">Nome do treinador</th>
-						<th scope="col" class="col-10 cgi">Endereco</th>
+						<th scope="col" class="col-3 cgi text-center">Nome do treinador</th>
+						<th scope="col" class="col-2 cgi text-center">Cidade</th>
+						<th scope="col" class="col-2 cgi text-center">Região</th>
+						<th scope="col" class="col-2 cgi text-center">Nível</th>
+						<th scope="col" class="col-2 cgi text-center">Dinheiro</th>
 						<th scope="col">Editar</th>
 						<th scope="col">Excluir</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr v-for="treinador in treinadores" :key="treinador.id">
-						<td>{{ treinador.nome }}</td>
-						<td>{{ treinador.endereco }}</td>
+						<td class="text-center">{{ treinador.nome }}</td>
+						<td class="text-center">{{ treinador.endereco.cidade }}</td>
+						<td class="text-center">{{ treinador.endereco.regiao }}</td>
+						<td class="text-center">{{ treinador.nivel }}</td>
+						<td class="text-center">{{ treinador.dinheiro }}</td>
 						<td>
 							<button type="button" class="btn btn-outline-light text-center" @click="">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

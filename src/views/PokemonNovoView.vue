@@ -3,14 +3,18 @@ import PokemonDataService from '../services/PokemonDataService';
 import TipoDataService from '../services/TipoDataService';
 import PokemonRequest from '../models/PokemonRequest';
 import AtaqueDataService from '../services/AtaqueDataService';
+import MensagemSucessoVue from '../components/MensagemSucesso.vue';
 
 export default {
 	name: 'pokemons-novo',
 	data() {
 		return {
 			pokemonRequest: new PokemonRequest(),
-			tipos: [], salvo: false, ataques: [],
+			tipos: [], salvo: false, ataques: [], ataquesSelecionados: [], ataqueSelecionado: {},
 		}
+	},
+	components: {
+		MensagemSucessoVue,
 	},
 	methods: {
 		carregarTipos() {
@@ -26,20 +30,16 @@ export default {
 			AtaqueDataService.buscarTodos()
 				.then(resposta => {
 					this.ataques = resposta;
-					this.pokemonRequest.ataquesIds[0] = "";
-					this.pokemonRequest.ataquesIds[1] = "";
-					this.pokemonRequest.ataquesIds[2] = "";
-					this.pokemonRequest.ataquesIds[3] = "";
 				})
 				.catch(erro => {
 					console.log(erro);
 				});
 		},
 		salvar() {
-			const listaFiltrada = this.pokemonRequest.tiposIds.filter(tipo => tipo != "");
-			this.pokemonRequest.tiposIds = [... new Set(listaFiltrada)]
-			const listaFiltradaAtaques = this.pokemonRequest.ataquesIds.filter(ataque => ataque != "");
-			this.pokemonRequest.ataquesIds = [... new Set(listaFiltradaAtaques)]
+			const listaFiltradaTipos = this.pokemonRequest.tiposIds.filter(tipo => tipo != "");
+			this.pokemonRequest.tiposIds = [... new Set(listaFiltradaTipos)]
+
+			this.pokemonRequest.ataquesIds = this.ataquesSelecionados.map(ataque => ataque.id);
 
 			PokemonDataService.criar(this.pokemonRequest)
 				.then(() => {
@@ -53,6 +53,14 @@ export default {
 		novo() {
 			this.pokemonRequest = new PokemonRequest();
 			this.salvo = false;
+		},
+		selecionarAtaque() {
+			if (this.ataquesSelecionados.length < 4)
+				this.ataquesSelecionados.push(this.ataqueSelecionado);
+			this.ataquesSelecionados = [... new Set(this.ataquesSelecionados)];
+		},
+		removerAtaque(indice) {
+			this.ataquesSelecionados.splice(indice, 1);
 		},
 		selecionarTipo(id) {
 		}
@@ -173,60 +181,64 @@ export default {
 					</div>
 				</div>
 				<div>
-					<label for="ataque1" class="form-label cgi m-2"><strong>Ataque 1</strong></label>
-					<select id="ataque1" class="form-select" v-model="pokemonRequest.ataquesIds[0]">
-						<option value="" selected>Nenhum</option>
-						<option v-for="ataque in ataques" :key="ataque.id" :value="ataque.id">
-							{{ataque.nome}} - Força: {{ataque.forca}} - Tipo: {{ataque.tipo.nome}} - Categoria:
-							{{ataque.categoria}}
+					<label for="ataque1" class="form-label cgi m-2"><strong>Ataques</strong></label>
+					<select id="ataque1" class="form-select" v-model="ataqueSelecionado" @change="selecionarAtaque">
+						<option v-for="(ataque, indice) in ataques" :key="ataque.id" :value="ataque">
+							{{ataque.nome}}
 						</option>
 					</select>
 				</div>
-				<div>
-					<label for="ataque2" class="form-label cgi m-2"><strong>Ataque 2</strong></label>
-					<select id="ataque2" class="form-select" v-model="pokemonRequest.ataquesIds[1]">
-						<option value="" selected>Nenhum</option>
-						<option v-for="ataque in ataques" :key="ataque.id" :value="ataque.id">
-							{{ataque.nome}} - Força: {{ataque.forca}} - Tipo: {{ataque.tipo.nome}} - Categoria:
-							{{ataque.categoria}}
-						</option>
-					</select>
-				</div>
-				<div>
-					<label for="ataque3" class="form-label cgi m-2"><strong>Ataque 3</strong></label>
-					<select id="ataque3" class="form-select" v-model="pokemonRequest.ataquesIds[2]">
-						<option value="" selected>Nenhum</option>
-						<option v-for="ataque in ataques" :key="ataque.id" :value="ataque.id">
-							{{ataque.nome}} - Força: {{ataque.forca}} - Tipo: {{ataque.tipo.nome}} - Categoria:
-							{{ataque.categoria}}
-						</option>
-					</select>
-				</div>
-				<div>
-					<label for="ataque4" class="form-label cgi m-2"><strong>Ataque 4</strong></label>
-					<select id="ataque4" class="form-select" v-model="pokemonRequest.ataquesIds[3]">
-						<option value="" selected>Nenhum</option>
-						<option v-for="ataque in ataques" :key="ataque.id" :value="ataque.id">
-							{{ataque.nome}} - Força: {{ataque.forca}} - Tipo: {{ataque.tipo.nome}} - Categoria:
-							{{ataque.categoria}}
-						</option>
-					</select>
+				<div class="row">
+					<div class="col-3 m-3" v-for="ataque in ataquesSelecionados" :key="ataque.id">
+						<div class="container card">
+							<div class="card-header row bg-dark text-white h-100">
+								<div class="mt-1 col-9"><strong>{{ataque.nome}}</strong></div>
+								<div class="col-2"><button type="button" class="btn btn-danger"
+										@click.prevemt="removerAtaque(indice)"><svg xmlns="http://www.w3.org/2000/svg"
+											width="16" height="16" fill="currentColor" class="bi bi-trash-fill"
+											viewBox="0 0 16 16">
+											<path
+												d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+										</svg></button></div>
+
+
+							</div>
+							<div class="card-body">
+								Força: {{ataque.forca}}
+							</div>
+							<div class="card-body">
+								Tipo: {{ataque.tipo.nome}}
+							</div>
+							<div class="card-body">
+								Acurácia: {{ataque.acuracia}}
+							</div>
+							<div class="card-body">
+								Poder: {{ataque.pontosDePoder}}
+							</div>
+							<div class="card-body">
+								Categoria: {{ataque.categoria}}
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="row button2">
-					<button @click.prevent="salvar" class="btn btn-dark m-3">Salvar</button>
+					<button @click.prevent="salvar" class="btn btn-dark mt-3 mb-4">Salvar</button>
 				</div>
 			</form>
 		</div>
 	</div>
 	<div v-else>
-		<div class="alert alert-success" role="alert">
-			Pokemon <strong>{{pokemonRequest.nome}}</strong> salvo com sucesso!
-		</div>
-		<button @click.prevent="novo" class="btn btn-dark m-3">Novo Cadastro</button>
+		<MensagemSucessoVue urlListagem="pokemons-lista" @cadastro="novo">
+			<span>O Pokemon <strong>{{pokemonRequest.nome}}</strong> foi cadastrado com sucesso!</span>
+		</MensagemSucessoVue>
 	</div>
 </template>
 <style>
 .cgi {
 	color: white;
+}
+
+.cgit {
+	color: rgb(255, 102, 0);
 }
 </style>
