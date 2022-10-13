@@ -115,7 +115,7 @@ export default {
 				</tbody>
 			</table>
 			<div class="row">
-				<div class="col-4">
+				<div class="col-4 mt-2">
 					<Paginacao></Paginacao>
 				</div>
 				<div class="col-1">
