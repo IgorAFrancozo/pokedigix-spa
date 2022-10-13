@@ -1,6 +1,9 @@
 <script>
 import TipoDataService from '../services/TipoDataService';
 import Loading from "vue-loading-overlay";
+import BarraBusca from '../components/BarraBusca.vue';
+import Ordenacao from '../components/Ordenacao.vue';
+import Paginacao from '../components/Paginacao.vue';
 
 export default {
 	name: "tipos-lista",
@@ -13,6 +16,9 @@ export default {
 	},
 	components: {
 		Loading,
+		BarraBusca,
+		Ordenacao,
+		Paginacao,
 	},
 	methods: {
 		buscarTipos() {
@@ -66,6 +72,12 @@ export default {
 	<div class="row">
 		<h2 class="cgi mb-4 mt-4">Lista de Tipos</h2>
 		<div class="table-responsive">
+			<div class="col-9">
+				<BarraBusca></BarraBusca>
+			</div>
+			<div class="col-3">
+				<Ordenacao></Ordenacao>
+			</div>
 			<loading v-model:active="isLoading" />
 			<table class="table table-dark table-striped">
 				<thead>
@@ -103,6 +115,9 @@ export default {
 				</tbody>
 			</table>
 			<div class="row">
+				<div class="col-4">
+					<Paginacao></Paginacao>
+				</div>
 				<div class="col-1">
 					<button @click="novo" class="btn btn-dark">Novo</button>
 				</div>

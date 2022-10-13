@@ -1,9 +1,18 @@
 <script>
 import PokemonDataService from "../services/PokemonDataService";
+import BarraBusca from '../components/BarraBusca.vue';
+import Ordenacao from '../components/Ordenacao.vue';
+import Paginacao from '../components/Paginacao.vue';
+
 export default {
 	name: "lista-pokemons",
 	data() {
 		return { pokemons: [], pokemonSelecionado: this.inicializaPokemon() };
+	},
+	components: {
+		BarraBusca,
+		Ordenacao,
+		Paginacao,
 	},
 	methods: {
 		buscarPokemons() {
@@ -53,6 +62,12 @@ export default {
 		<div>
 			<h2 class="cgi">Lista de Pokemon</h2>
 			<div class="row cgit">
+				<div class="col-9">
+					<BarraBusca></BarraBusca>
+				</div>
+				<div class="col-3">
+					<Ordenacao></Ordenacao>
+				</div>
 				<div class="col-6" v-for="pokemon in pokemons" :key="pokemon.id">
 					<div class="card bg-dark mb-3">
 						<div class="card-header">
@@ -149,6 +164,9 @@ export default {
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="col-4">
+					<Paginacao></Paginacao>
 				</div>
 			</div>
 			<div class="modal fade" id="confirmacaoExclusaoPokemon" tabindex="-1" aria-labelledby="exampleModalLabel"
