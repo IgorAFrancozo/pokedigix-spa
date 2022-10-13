@@ -62,10 +62,10 @@ export default {
 		<div>
 			<h2 class="cgi">Lista de Pokemon</h2>
 			<div class="row cgit">
-				<div class="col-9">
+				<div class="col-9 mb-3">
 					<BarraBusca></BarraBusca>
 				</div>
-				<div class="col-3">
+				<div class="col-3 mb-3">
 					<Ordenacao></Ordenacao>
 				</div>
 				<div class="col-6" v-for="pokemon in pokemons" :key="pokemon.id">
@@ -165,7 +165,7 @@ export default {
 						</div>
 					</div>
 				</div>
-				<div class="col-4">
+				<div class="col-4 mt-2">
 					<Paginacao></Paginacao>
 				</div>
 			</div>
