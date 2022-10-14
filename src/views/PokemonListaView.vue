@@ -1,22 +1,62 @@
 <script>
 import PokemonDataService from "../services/PokemonDataService";
-import BarraBusca from '../components/BarraBusca.vue';
 import Ordenacao from '../components/Ordenacao.vue';
 import Paginacao from '../components/Paginacao.vue';
-
 export default {
 	name: "lista-pokemons",
 	data() {
-		return { pokemons: [], pokemonSelecionado: this.inicializaPokemon() };
+		return {
+			pokemons: [], pokemonSelecionado: this.inicializaPokemon(),
+			pagina: 1,
+			tamanho: 4,
+			ordenacao: {
+				titulo: "",
+				direcao: "",
+				campo: ""
+			},
+			url: '#',
+			pageParam: 'page',
+			total: 7,
+			quantidade: 4,
+			opcoes: [{
+				titulo: "Nome: Crescente",
+				direcao: "ASC",
+				campo: "nome"
+			},
+			{
+				titulo: "Nome: Decrescente",
+				direcao: "DESC",
+				campo: "nome"
+			},
+			{
+				titulo: "Numero: Crescente",
+				direcao: "ASC",
+				campo: "numeroPokedex"
+			},
+			{
+				titulo: "Nivel: Decrescente",
+				direcao: "DESC",
+				campo: "nivel"
+			}],
+			termo: ""
+		};
 	},
 	components: {
-		BarraBusca,
 		Ordenacao,
-		Paginacao,
+		Paginacao
 	},
 	methods: {
+		filtarPeloDigitada() {
+			if (this.termo.length > 3) {
+				this.buscarPokemons();
+			}
+		},
+		trocarPagina(p) {
+			this.pagina = p;
+			this.buscarPokemons()
+		},
 		buscarPokemons() {
-			PokemonDataService.buscarTodos()
+			PokemonDataService.buscarTodosPaginadoOrdenado(this.pagina - 1, this.tamanho, this.ordenacao.campo, this.ordenacao.direcao, this.termo)
 				.then((resposta) => {
 					this.pokemons = resposta;
 				})
@@ -44,32 +84,42 @@ export default {
 			this.pokemonSelecionado.id = pokemon.id;
 			this.pokemonSelecionado.nome = pokemon.nome;
 		},
-		novo() {
-			this.$router.push({ name: 'pokemon-novo' });
-		}
-		//	editar(id) {
-		//   this.$router.push({ name: 'pokemon-edit', params: {id: id}});
-		// }
+		pesquisar(texto) {
+			this.termo = text;
+			this.buscarPokemons();
+		},
 	},
 	mounted() {
 		this.buscarPokemons();
+		this.ordenacao = this.opcoes[0];
 	},
 };
 </script>
-	
+
 <template>
 	<main>
-		<div>
+		<div class="cgit">
 			<h2 class="cgi">Lista de Pokemon</h2>
-			<div class="row cgit">
-				<div class="col-9 mb-3">
-					<BarraBusca></BarraBusca>
+			<div class="row justify-content-end cgit">
+				<div class="col-2">
+					<Ordenacao v-model="ordenacao" @ordenar="buscarPokemons" :ordenacao="ordenacao" :opcoes="opcoes" />
 				</div>
-				<div class="col-3 mb-3">
-					<Ordenacao></Ordenacao>
+				<div class="col-4">
+					<form class="d-flex" role="search">
+						<input class="form-control me-2" v-model="termo" type="search" placeholder="Procurar"
+							aria-label="Search">
+						<button class="btn btn-primary" type="button" @click.prevent="buscarPokemons"><svg
+								xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-search" viewBox="0 0 16 16">
+								<path
+									d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+							</svg></button>
+					</form>
 				</div>
+			</div>
+			<div class="row mt-2">
 				<div class="col-6" v-for="pokemon in pokemons" :key="pokemon.id">
-					<div class="card bg-dark mb-3">
+					<div class="card mb-3 bg-dark">
 						<div class="card-header">
 							<div class="row">
 								<div class="col-sm-6">
@@ -85,9 +135,9 @@ export default {
 						<div class="row g-0">
 							<div class="col-md-3 text-center align-items-center">
 								<img :alt="'Imagem do ' + pokemon.nome" :title="pokemon.nome" class="card-img" :src="
-														'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/' +
-														pokemon.numeroPokedex +
-														'.png'
+								  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/' +
+								  pokemon.numeroPokedex +
+								  '.png'
 								" />
 							</div>
 							<div class="col-md-9">
@@ -95,8 +145,8 @@ export default {
 									<p class="card-text">
 									<div class="row">
 										<div v-for="tipo in pokemon.tipos" :key="tipo.id" class="col-6">
-											<div class="card">
-												<div class="card-body birl text-center text-white p-1"
+											<div class="card rounded-4">
+												<div class="card-body text-center p-1 birl rounded-4"
 													:style="{backgroundColor: tipo.cor}">
 													<strong>{{tipo.nome}}</strong>
 												</div>
@@ -128,19 +178,18 @@ export default {
 											}}</strong></p>
 										</div>
 									</div>
-
 									<div class="text-center">
 										<button type="button" data-bs-toggle="collapse"
-											class="btn btn-outline-warning pt-1 m-3"
+											class="btn btn-outline-primary pt-1 m-1"
 											:href="'#collapseExample' + pokemon.id">
-											Detalhes
+											Mais
 											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 												fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
 												<path fill-rule="evenodd"
 													d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
 											</svg>
 										</button>
-										<button type="button" class="btn btn-outline-primary m-1">
+										<button type="button" class="btn btn-outline-warning m-1">
 											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 												fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
 												<path
@@ -165,9 +214,8 @@ export default {
 						</div>
 					</div>
 				</div>
-				<div class="col-4 mt-2">
-					<Paginacao></Paginacao>
-				</div>
+				<Paginacao :total="total" :quantidade="quantidade" v-model="pagina" :atual="pagina"
+					:trocarPagina="trocarPagina"></Paginacao>
 			</div>
 			<div class="modal fade" id="confirmacaoExclusaoPokemon" tabindex="-1" aria-labelledby="exampleModalLabel"
 				aria-hidden="true">

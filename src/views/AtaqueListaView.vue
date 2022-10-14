@@ -74,8 +74,8 @@ export default {
 	<div class="row">
 		<h2 class="cgi mb-4 mt-4">Lista de Ataques</h2>
 		<div class="table-responsive">
-			<div class="row">
-				<div class="col-9 mb-3">
+			<div class="row justify-content-center">
+				<div class="col-7 mb-3">
 					<BarraBusca></BarraBusca>
 				</div>
 				<div class="col-3 mb-3">
@@ -128,11 +128,11 @@ export default {
 					</tr>
 				</tbody>
 			</table>
-			<div class="col-4 mt-2">
-				<Paginacao></Paginacao>
-			</div>
 			<div class="col-1">
 				<button @click="novo" class="btn btn-dark">Novo</button>
+			</div>
+			<div class="mt-2">
+				<Paginacao></Paginacao>
 			</div>
 		</div>
 		<div class="modal fade" id="confirmacaoExclusao" tabindex="-1" aria-labelledby="exampleModalLabel"
