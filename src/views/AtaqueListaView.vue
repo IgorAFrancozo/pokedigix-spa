@@ -13,6 +13,24 @@ export default {
 			ataqueSelecionado: this.inicializaAtaque(),
 			isLoading: false,
 			fullPage: false,
+			ordenacao: {
+				titulo: "",
+				direcao: "",
+				campo: ""
+			},
+			url: '#',
+			pageParam: 'page',
+			opcoes: [{
+				titulo: "Nome: Crescente",
+				direcao: "ASC",
+				campo: "nome"
+			},
+			{
+				titulo: "Nome: Decrescente",
+				direcao: "DESC",
+				campo: "nome"
+			}],
+			termo: ""
 		};
 	},
 	components: {
@@ -36,6 +54,10 @@ export default {
 		},
 		editar(id) {
 			this.$router.push({ name: "ataques-edit", params: { id: id } });
+		},
+		trocarPagina(p) {
+			this.pagina = p;
+			this.buscarAtaques()
 		},
 		selecionar(ataque) {
 			this.ataqueSelecionado.id = ataque.id;
@@ -66,20 +88,30 @@ export default {
 	},
 	mounted() {
 		this.buscarAtaques();
+		this.ordenacao = this.opcoes[0];
 	},
 };
 </script>
         
 <template>
 	<div class="row">
-		<h2 class="cgi mb-4 mt-4">Lista de Ataques</h2>
+		<h2 class="cgi bg-dark rounded-4 text-center p-1 mt-5 mb-5">Lista de Ataques</h2>
 		<div class="table-responsive">
-			<div class="row justify-content-center">
-				<div class="col-7 mb-3">
-					<BarraBusca></BarraBusca>
+			<div class="row justify-content-end mb-3">
+				<div class="col-2">
+					<Ordenacao v-model="ordenacao" @ordenar="buscarAtaques" :ordenacao="ordenacao" :opcoes="opcoes" />
 				</div>
-				<div class="col-3 mb-3">
-					<Ordenacao></Ordenacao>
+				<div class="col-4">
+					<form class="d-flex" role="search">
+						<input class="form-control me-2" v-model="termo" type="search" placeholder="Procurar"
+							aria-label="Search">
+						<button class="btn btn-primary" type="button" @click.prevent="buscarAtaques"><svg
+								xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-search" viewBox="0 0 16 16">
+								<path
+									d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+							</svg></button>
+					</form>
 				</div>
 			</div>
 			<loading v-model:active="isLoading" :is-full-page="fullPage" :loader="'spinner'" />
@@ -132,7 +164,8 @@ export default {
 				<button @click="novo" class="btn btn-dark">Novo</button>
 			</div>
 			<div class="mt-2">
-				<Paginacao></Paginacao>
+				<Paginacao :total="total" :quantidade="quantidade" v-model="pagina" :atual="pagina"
+					:trocarPagina="trocarPagina"></Paginacao>
 			</div>
 		</div>
 		<div class="modal fade" id="confirmacaoExclusao" tabindex="-1" aria-labelledby="exampleModalLabel"
