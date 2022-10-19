@@ -233,12 +233,3 @@ export default {
 		</MensagemSucessoVue>
 	</div>
 </template>
-<style>
-.cgi {
-	color: white;
-}
-
-.cgit {
-	color: rgb(255, 102, 0);
-}
-</style>

@@ -268,4 +268,10 @@ export default {
 .g3x {
 	width: 250px;
 }
+.cgi {
+	color: rgb(237, 100, 10);
+}
+.cgit {
+	color: rgb(255, 102, 0);
+}
 </style>

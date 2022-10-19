@@ -92,7 +92,7 @@ export default {
 			<loading v-model:active="isLoading" />
 			<table class="table table-dark table-striped">
 				<thead>
-					<tr>
+					<tr class="cgi">
 						<th scope="col" class="col-10">Nome do Tipo</th>
 						<th scope="col">Editar</th>
 						<th scope="col">Excluir</th>

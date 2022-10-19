@@ -13,6 +13,8 @@ export default {
 			ataqueSelecionado: this.inicializaAtaque(),
 			isLoading: false,
 			fullPage: false,
+			pagina: 1,
+			tamanho: 7,
 			ordenacao: {
 				titulo: "",
 				direcao: "",
@@ -20,6 +22,8 @@ export default {
 			},
 			url: '#',
 			pageParam: 'page',
+			total: 3,
+			quantidade: 4,
 			opcoes: [{
 				titulo: "Nome: Crescente",
 				direcao: "ASC",
@@ -42,10 +46,12 @@ export default {
 	methods: {
 		buscarAtaques() {
 			this.isLoading = true;
-			AtaqueDataService.buscarTodos()
+			AtaqueDataService.buscarTodosPaginadoOrdenado(this.pagina - 1, this.tamanho, this.ordenacao.campo, this.ordenacao.direcao, this.termo)
 				.then((resposta) => {
-					this.ataques = resposta;
+					this.ataques = resposta.ataques;
+					this.total = resposta.totalPaginas;
 					this.isLoading = false;
+					console.log(resposta);
 				})
 				.catch((erro) => {
 					console.log(erro);
@@ -65,8 +71,8 @@ export default {
 		},
 		inicializaAtaque() {
 			return {
-				id: null,
-				nome: null
+				"id": null,
+				"nome": null
 			}
 		},
 		removerAtaqueSelecionado() {
@@ -117,7 +123,7 @@ export default {
 			<loading v-model:active="isLoading" :is-full-page="fullPage" :loader="'spinner'" />
 			<table class="table table-dark table-striped">
 				<thead>
-					<tr>
+					<tr class="cgi">
 						<th scope="col" class="text-center">Nome do Ataque</th>
 						<th scope="col" class="text-center">Tipo</th>
 						<th scope="col" class="text-center">Categoria</th>
@@ -192,3 +198,8 @@ export default {
 		</div>
 	</div>
 </template>
+<style>
+.cgi {
+	color: rgb(237, 100, 10);
+}
+</style>

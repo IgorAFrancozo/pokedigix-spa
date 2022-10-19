@@ -4,6 +4,9 @@ import Loading from "vue-loading-overlay";
 import BarraBusca from '../components/BarraBusca.vue';
 import Ordenacao from '../components/Ordenacao.vue';
 import Paginacao from '../components/Paginacao.vue';
+import { useCookies } from 'vue3-cookies';
+
+const { cookies } = useCookies();
 
 export default {
 	name: "treinadores-lista",
@@ -32,6 +35,13 @@ export default {
 					this.isLoading = false;
 				});
 		},
+		novo() {
+			this.$router.push({ name: "treinadores-novo" });
+		},
+		trocar(treinador) {
+			cookies.set('treinador_nome', treinador.nome, '5min');
+			cookies.set('treinador_id', treinador.id, '5min');
+		}
 	},
 	mounted() {
 		this.buscarTreinadores();
@@ -63,7 +73,7 @@ export default {
 			<loading v-model:active="isLoading" />
 			<table class="table table-dark table-striped">
 				<thead>
-					<tr>
+					<tr class="cgi">
 						<th scope="col" class="col-3 cgi text-center">Nome do treinador</th>
 						<th scope="col" class="col-2 cgi text-center">Cidade</th>
 						<th scope="col" class="col-2 cgi text-center">Região</th>
@@ -74,8 +84,11 @@ export default {
 					</tr>
 				</thead>
 				<tbody>
+
 					<tr v-for="treinador in treinadores" :key="treinador.id">
-						<td class="text-center">{{ treinador.nome }}</td>
+						<td>{{ treinador.nome }}
+							<button class="btn btn-outline-primary m-2" @click="trocar(treinador)">Selecionar</button>
+						</td>
 						<td class="text-center">{{ treinador.endereco.cidade }}</td>
 						<td class="text-center">{{ treinador.endereco.regiao }}</td>
 						<td class="text-center">{{ treinador.nivel }}</td>
@@ -134,3 +147,8 @@ export default {
 		</div>
 	</div>
 </template>
+<style>
+.cgi {
+	color: rgb(237, 100, 10);
+}
+</style>

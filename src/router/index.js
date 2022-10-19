@@ -1,14 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import AtaqueEditView from '../views/AtaqueEditView.vue';
-import AtaqueListaView from '../views/AtaqueListaView.vue';
-import AtaqueNovoView from '../views/AtaqueNovoView.vue';
-import PokemonListaView from '../views/PokemonListaView.vue';
-import PokemonNovoView from '../views/PokemonNovoView.vue';
-import TipoEditView from '../views/TipoEditView.vue';
-import TipoListaView from '../views/TipoListaView.vue';
-import TipoNovoView from '../views/TipoNovoView.vue';
-import TreinadorListaView from '../views/TreinadorListaView.vue';
-import TreinadorNovoView from '../views/TreinadorNovoView.vue';
+const AtaqueEditView = () => import('../views/AtaqueEditView.vue');
+const AtaqueListaView = () => import('../views/AtaqueListaView.vue');
+const AtaqueNovoView = () => import('../views/AtaqueNovoView.vue');
+const PokemonListaView = () => import('../views/PokemonListaView.vue');
+const PokemonNovoView = () => import('../views/PokemonNovoView.vue');
+const TipoEditView = () => import('../views/TipoEditView.vue');
+const TipoListaView = () => import('../views/TipoListaView.vue');
+const TipoNovoView = () => import('../views/TipoNovoView.vue');
+const TreinadorListaView = () => import('../views/TreinadorListaView.vue');
+const TreinadorNovoView = () => import('../views/TreinadorNovoView.vue');
+const PageNotFound = () => import('../views/PageNotFound.vue');
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,6 +18,11 @@ const router = createRouter({
 			path: '/',
 			name: 'home',
 			component: PokemonListaView
+		},
+		{
+			path: '/:catchall(.*)*',
+			name: 'not-found',
+			component: PageNotFound,
 		},
 		{
 			path: '/tipos/novo',
