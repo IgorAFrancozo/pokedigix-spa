@@ -90,11 +90,12 @@ export default {
 								<li>
 									<RouterLink class="dropdown-item" to="/treinadores/lista">Lista</RouterLink>
 								</li>
+
 							</ul>
 						</li>
 						<div class="sep">
 							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+								<a class="nav-link dropdown-toggle mt-2" role="button" data-bs-toggle="dropdown"
 									aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34"
 										fill="currentColor" class="bi bi-person-badge" viewBox="0 0 16 16">
 										<path
@@ -102,18 +103,23 @@ export default {
 										<path
 											d="M4.5 0A2.5 2.5 0 0 0 2 2.5V14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2.5A2.5 2.5 0 0 0 11.5 0h-7zM3 2.5A1.5 1.5 0 0 1 4.5 1h7A1.5 1.5 0 0 1 13 2.5v10.795a4.2 4.2 0 0 0-.776-.492C11.392 12.387 10.063 12 8 12s-3.392.387-4.224.803a4.2 4.2 0 0 0-.776.492V2.5z" />
 									</svg>
-									{{nomeTreinador}}
+									{{ nomeTreinador }}
 								</a>
 								<ul class="dropdown-menu">
 									<li>
-										<RouterLink class="dropdown-item" to="/treinadores/lista">Trocar Treinador
+										<RouterLink class="dropdown-item" to="/treinadores/lista">Trocar
+											Treinador
 										</RouterLink>
 									</li>
 								</ul>
 							</li>
 						</div>
+						<div>
+						</div>
 					</ul>
 				</div>
+				<RouterLink class="btn btn-dark ms-2 me-2" to="/usuarios/login">Entrar</RouterLink>
+				<RouterLink class="btn btn-dark ms-2 me-2" to="/usuarios/novo">Cadastrar</RouterLink>
 			</div>
 		</nav>
 	</header>
@@ -128,7 +134,8 @@ export default {
 
 .sep {
 	font-weight: bolder;
-	margin-left: 180px;
+	margin-left: 52px;
+	margin-right: 52px;
 	background-color: rgb(255, 99, 0);
 	border-radius: 10px;
 	padding-left: 10px;

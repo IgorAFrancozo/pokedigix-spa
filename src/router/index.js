@@ -10,6 +10,8 @@ const TipoNovoView = () => import('../views/TipoNovoView.vue');
 const TreinadorListaView = () => import('../views/TreinadorListaView.vue');
 const TreinadorNovoView = () => import('../views/TreinadorNovoView.vue');
 const PageNotFound = () => import('../views/PageNotFound.vue');
+const SignUpView = () => import('../views/SignUpView.vue')
+const SignInView = () => import('../views/SignInView.vue')
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,7 +24,7 @@ const router = createRouter({
 		{
 			path: '/:catchall(.*)*',
 			name: 'not-found',
-			component: PageNotFound,
+			component: PageNotFound
 		},
 		{
 			path: '/tipos/novo',
@@ -73,6 +75,16 @@ const router = createRouter({
 			path: '/treinadores/novo',
 			name: 'treinadores-novo',
 			component: TreinadorNovoView
+		},
+		{
+			path: '/usuarios/novo',
+			name: 'usuarios-novo',
+			component: SignUpView
+		},
+		{
+			path: '/usuarios/login',
+			name: 'usuarios-login',
+			component: SignInView
 		}
 	]
 })

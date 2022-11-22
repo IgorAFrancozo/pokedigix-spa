@@ -80,10 +80,10 @@ export default {
 	<div v-if="!salvo">
 		<form>
 			<div class="mb-3">
-				<label for="nome" class="form-label text-white">Nome do treinador</label>
+				<label for="nome" class="form-label cgi">Nome do treinador</label>
 				<input type="text" required class="form-control" v-model="treinadorRequest.nome" id="nome" />
 			</div>
-			<label for="pokemon" class="form-label text-white">Pokemon inicial</label>
+			<label for="pokemon" class="form-label cgi">Pokemon inicial</label>
 			<select id="pokemon" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
 				v-model="treinadorRequest.idPrimeiroPokemon">
 				<option v-for="pokemon in pokemons" :key="pokemon.id" :value="pokemon.id">
@@ -116,7 +116,7 @@ export default {
 					</div>
 				</div>
 			</div>
-			<button @click.prevent="salvar" class="btn btn-success">Salvar</button>
+			<button @click.prevent="salvar" class="btn btn-dark cgi p-3">Salvar</button>
 		</form>
 		<div class="modal fade" id="enderecoModal" tabindex="-1" aria-labelledby="enderecoModalLabel"
 			aria-hidden="true">
@@ -135,9 +135,9 @@ export default {
 							<input type="text" required class="form-control" v-model="endereco.regiao" id="regiao" />
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" @click.prevent="cancelar"
+							<button type="button" class="btn btn-secondary cgi" @click.prevent="cancelar"
 								data-bs-dismiss="modal">Cancelar</button>
-							<button type="button" class="btn btn-primary" @click.prevent="salvarEndereco"
+							<button type="button" class="btn btn-primary cgi" @click.prevent="salvarEndereco"
 								data-bs-dismiss="modal">Salvar</button>
 						</div>
 					</form>

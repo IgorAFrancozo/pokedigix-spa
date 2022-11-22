@@ -222,7 +222,7 @@ export default {
 					</div>
 				</div>
 				<div class="row button2">
-					<button @click.prevent="salvar" class="btn btn-dark mt-3 mb-4">Salvar</button>
+					<button @click.prevent="salvar" class="btn btn-dark mt-3 mb-4 cgi">Salvar</button>
 				</div>
 			</form>
 		</div>

@@ -3,7 +3,10 @@ import AtaqueDataService from '../services/AtaqueDataService';
 import AtaqueRequest from '../models/AtaqueRequest';
 import AtaqueResponse from '../models/AtaqueResponse';
 import TipoDataService from '../services/TipoDataService';
-import MensagemSucessoVue from '../components/MensagemSucesso.vue';
+import MensagemSucesso from '../components/MensagemSucesso.vue';
+import MensagemErro from '../components/MensagemErro.vue';
+import MensagemErroDTO from '../models/MensagemErroDTO';
+import { Toast } from "bootstrap";
 
 export default {
 	name: 'ataques-novo',
@@ -30,12 +33,11 @@ export default {
 				}
 			],
 			tipos: [],
-			desabilitarForca: false
+			desabilitarForca: false,
+			MensagemErroDTO: new MensagemErroDTO()
 		};
 	},
-	components: {
-		MensagemSucessoVue,
-	},
+	components: { MensagemSucesso, MensagemErro },
 	methods: {
 		salvar() {
 			AtaqueDataService.criar(this.ataqueRequest)
@@ -44,7 +46,24 @@ export default {
 					this.salvo = true;
 				})
 				.catch(erro => {
-					console.log(erro);
+					this.mensagemErroDTO.tipo = erro.response.data.type;
+					this.mensagemErroDTO.status = erro.response.data.status;
+					const campoAcuracia = document.getElementById("acuracia");
+					const campoForca = document.getElementById("forca");
+					campoAcuracia.setCustomValidity("");
+					campoForca.setCustomValidity("");
+					if (this.mensagemErroDTO.tipo == "DataIntegrityViolationException") {
+						this.mensagemErroDTO.mensagemDeErro = "Preencha todos os campos obrigatorios."
+					} else if (this.mensagemErroDTO.tipo == "AcuraciaInvalidaException") {
+						this.mensagemErroDTO.mensagemDeErro = erro.response.data.errors[0];
+						campoAcuracia.setCustomValidity(this.mensagemErroDTO.mensagemDeErro)
+					} else if (this.mensagemErroDTO.tipo == "ForcaInvalidaParaCategoriaException") {
+						this.mensagemErroDTO.mensagemDeErro = erro.response.data.errors[0];
+						campoForca.setCustomValidity(this.mensagemErroDTO.mensagemDeErro)
+					}
+					const toastLiveExample = document.getElementById("liveToast");
+					const toast = new Toast(toastLiveExample);
+					toast.show();
 					this.salvo = false;
 				});
 		},
@@ -82,7 +101,7 @@ export default {
 
 <template>
 	<div v-if="!salvo">
-		<form class="cgi row g-3">
+		<form class="cgi row g-3" @submit.prevent="salvar">
 			<div class="col-12">
 				<label for="nome" class="form-label">Nome do Ataque</label>
 				<input type="text" placeholder="ex: Ataque do Trovao" required class="form-control"
@@ -90,8 +109,10 @@ export default {
 			</div>
 			<div class="col-6">
 				<label for="forca" class="form-label">Forca</label>
-				<input type="text" required :disabled="desabilitarForca" class="form-control"
-					v-model="ataqueRequest.forca" id="forca">
+				<div class="has-validation">
+					<input type="text" required :disabled="desabilitarForca" class="form-control"
+						v-model="ataqueRequest.forca" id="forca">
+				</div>
 			</div>
 			<div class="col-6">
 				<label for="acuracia" class="form-label">Acuracia</label>
@@ -106,7 +127,7 @@ export default {
 				<select id="categoria" @change="escolherCategoria" class="form-select"
 					v-model="ataqueRequest.categoria">
 					<option v-for="categoria in categorias" :key="categoria.indice" :value="categoria.nomeBanco">
-						{{categoria.nome}}
+						{{ categoria.nome }}
 					</option>
 				</select>
 			</div>
@@ -114,7 +135,7 @@ export default {
 				<label for="tipo" class="form-label">Tipo do Ataque</label>
 				<select id="tipo" class="form-select" v-model="ataqueRequest.tipoId">
 					<option v-for="tipo in tipos" :key="tipo.id" :value="tipo.id">
-						{{tipo.nome}}
+						{{ tipo.nome }}
 					</option>
 				</select>
 			</div>
@@ -123,12 +144,14 @@ export default {
 				<textarea class="form-control" id="descricao" rows="2" required placeholder="ex: Esse ataque machuca"
 					v-model="ataqueRequest.descricao"></textarea>
 			</div>
-			<button @click.prevent="salvar" class="btn btn-success">Salvar</button>
+			<button type="submit" class="btn btn-success">Salvar</button>
 		</form>
+		<MensagemErro v-if="mensagemErroDTO.tipo == 'DataIntegrityViolationException'"
+			:mensagemErroDTO="mensagemErroDTO"></MensagemErro>
 	</div>
 	<div v-else>
-		<MensagemSucessoVue urlListagem="ataques-lista" @cadastro="novo">
-			<span>O Ataque <strong>{{ataqueResponse.nome}}</strong> foi cadastrado com sucesso!</span>
-		</MensagemSucessoVue>
+		<MensagemSucesso urlListagem="ataques-lista" @cadastro="novo">
+			<span>O Ataque <strong>{{ ataqueResponse.nome }}</strong> foi cadastrado com sucesso!</span>
+		</MensagemSucesso>
 	</div>
 </template>

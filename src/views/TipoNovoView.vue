@@ -41,15 +41,20 @@ export default {
 	<div v-if="!salvo">
 		<form>
 			<div class="cgi mb-3">
-				<label for="nome" class="form-label">Nome do Tipo</label>
+				<label for="nome" class="form-label cgi">Nome do Tipo</label>
 				<input type="text" required class="form-control" v-model="tipo.nome" id="nome" />
 			</div>
-			<button @click.prevent="salvar" class="btn btn-success">Salvar</button>
+			<button @click.prevent="salvar" class="btn btn-dark cgi">Salvar</button>
 		</form>
 	</div>
 	<div v-else>
 		<MensagemSucessoVue @cadastro="novo" urlListagem="tipos-lista">
-			<span>O Tipo <strong>{{tipo.nome}}</strong> foi cadastrado com sucesso!</span>
+			<span>O Tipo <strong>{{ tipo.nome }}</strong> foi cadastrado com sucesso!</span>
 		</MensagemSucessoVue>
 	</div>
 </template>
+<style>
+.cgi {
+	color: rgb(237, 100, 10);
+}
+</style>
